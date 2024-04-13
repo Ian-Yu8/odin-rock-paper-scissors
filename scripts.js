@@ -5,20 +5,50 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection){
-    let pSelection =  playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
-    let cSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1).toLowerCase();
-
-    if (pSelection === cSelection){
-        return "Tie!";
-    } else if (pSelection === "Rock" && cSelection === "Scissors" ||
-               pSelection === "Paper" && cSelection === "Rock" ||
-               pSelection === "Scissors" && cSelection === "Paper"){
-        return `You Win! ${pSelection} beats ${cSelection}`
+    if (playerSelection === computerSelection){
+        return 0.5;
+    } else if (playerSelection === "Rock" && computerSelection === "Scissors" ||
+               playerSelection === "Paper" && computerSelection === "Rock" ||
+               playerSelection === "Scissors" && computerSelection === "Paper"){
+        return 1;
     } else {
-        return `You Lose! ${cSelection} beats ${pSelection}`
+        return -1;
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+function playGame(){
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 5; i++){
+        let pChoice = prompt();
+        let playerChoice =  pChoice.charAt(0).toUpperCase() + pChoice.slice(1).toLowerCase();
+        let computerChoice = getComputerChoice();
+        let result = playRound(playerChoice, computerChoice);
+
+        if (result === 0.5){
+            playerScore += 0.5;
+            computerScore += 0.5;
+            console.log(`Tie!`);
+
+        } else if (result === 1){
+            playerScore++;
+            console.log(`You Win! ${playerChoice} beats ${computerChoice}`);
+
+        } else {
+            computerScore++;
+            console.log(`You Lose! ${computerChoice} beats ${playerChoice}`);
+
+        }
+    }
+    
+    if (playerScore === computerScore){
+        console.log("Tie!");
+    } else if (playerScore > computerScore){
+        console.log(`You win ${playerScore} to ${computerScore}!`);
+    } else {
+        console.log(`You lose ${playerScore} to ${computerScore}`);
+    }
+}
+
+playGame()
